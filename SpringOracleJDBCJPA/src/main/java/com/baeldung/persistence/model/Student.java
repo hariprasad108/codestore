@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
 @Entity
 @Table(name = "STUDENT")
 public class Student implements Serializable {
@@ -23,8 +26,12 @@ public class Student implements Serializable {
     }
 
     public Student(Integer id, String name, Integer age) {
-        super();
         this.id = id;
+        this.name = name;
+        this.age = age;
+    }
+
+    public Student(String name, Integer age) {
         this.name = name;
         this.age = age;
     }
@@ -104,7 +111,10 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Foo [name=").append(name).append("]");
+        builder.append("Student [id=").append(id)
+          .append(" name=").append(name)
+          .append(" age=").append(age)
+          .append("]");
         return builder.toString();
     }
 
