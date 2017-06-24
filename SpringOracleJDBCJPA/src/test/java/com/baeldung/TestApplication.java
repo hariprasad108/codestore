@@ -28,11 +28,11 @@ public class TestApplication {
         //Student std = new Student("Swamiji Maheshwaranada", 1000000008);
         //ta.aplicationManager.getApplication().addStudent(std);
         
-        /*Student retStd = ta.aplicationManager.getApplication()
-            .getStudent(*std.getId()*new Integer(204));
-        ta.logger.info("Student: " + retStd);*/
+        Student retStd = ta.aplicationManager.getApplication()
+            .getStudent(new Integer(205));
+        ta.logger.info("*** Student: " + retStd);
         
         List<Student> students = ta.aplicationManager.getApplication().listStudents();
-        ta.logger.info("Students: " + students);
+        ta.logger.info("*** Students: " + students);
     }
 }
