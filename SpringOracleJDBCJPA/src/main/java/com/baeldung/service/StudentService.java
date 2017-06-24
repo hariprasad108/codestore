@@ -2,15 +2,10 @@ package com.baeldung.service;
 
 import java.util.List;
 
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.annotations.NamedNativeQueries;
-import org.hibernate.annotations.NamedNativeQuery;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,10 +30,11 @@ public class StudentService implements StudentServiceInt {
     }
 
     @Override
+    @Transactional
     public Student createStudent(Student student) {
         String SQL = "insert into student (id, name, age) values (?, ?, ?)";
-        studentDAO.getSession()
-            .update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
+        studentDAO.getSession().save(student);
+            //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
         System.out.println("Created Record Student: " + student.toString());
         return student;
     }

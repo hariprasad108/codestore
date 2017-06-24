@@ -37,10 +37,10 @@ public abstract class AbstractHibernateDAO<T extends Serializable> extends Abstr
         getCurrentSession().saveOrUpdate(entity);
     }
     
-    /*@Override
+    @Override
     public Serializable save(final T entity) {
-            return getSession().save(entity);
-    }*/
+            return getCurrentSession().save(entity);
+    }
     
 
     @Override

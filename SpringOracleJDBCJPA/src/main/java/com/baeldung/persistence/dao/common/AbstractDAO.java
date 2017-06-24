@@ -14,6 +14,8 @@ public abstract class AbstractDAO<T extends Serializable> {
     abstract List<T> findAll();
 
     abstract void create(final T entity);
+    
+    abstract public Serializable save(final T entity);
 
     abstract T update(final T entity);
 
