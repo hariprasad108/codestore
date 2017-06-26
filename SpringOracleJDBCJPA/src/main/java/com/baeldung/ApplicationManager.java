@@ -6,12 +6,12 @@ import com.baeldung.configuration.AppConfiguration;
 
 public class ApplicationManager {
     AnnotationConfigApplicationContext context = null;
-    MainApplication application = null;
+    PersistenceApplication application = null;
 
     public ApplicationManager() {
         try {
             context = new AnnotationConfigApplicationContext(AppConfiguration.class);
-            application = context.getBean(MainApplication.class);
+            application = context.getBean(PersistenceApplication.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -27,7 +27,7 @@ public class ApplicationManager {
         return context;
     }
 
-    public MainApplication getApplication() {
+    public PersistenceApplication getApplication() {
         return application;
     }
 }

@@ -26,13 +26,31 @@ public class TestApplication {
     public static void main(String[] args) {
         TestApplication ta = new TestApplication();
         Student std = new Student("Swamiji Maheshwaranada", 1000000008);
-        ta.aplicationManager.getApplication().addStudent(std);
+        ta.logger.info(std.toString());
+        Integer id = ta.aplicationManager.getApplication().addStudent(std);
+        std.setId(id);
+        ta.logger.info("Student added: " + std);        
         
-        /*Student retStd = ta.aplicationManager.getApplication()
-            .getStudent(new Integer(205));
+        std = ta.aplicationManager.getApplication().deleteStudent(206);
+
+        Student retStd = ta.aplicationManager.getApplication()
+            .getStudent(new Integer(206));
         ta.logger.info("*** Student: " + retStd);
-        
+        if (retStd != null) {
+          retStd.setName("Shri " + retStd.getName());
+          Student studentOld = ta.aplicationManager.getApplication().updateStudent(retStd);
+          ta.logger.info("Student updated: " + studentOld);        
+        }
+        else {
+            ta.logger.info("Student for update not exists: " + retStd);                   
+        }
+
         List<Student> students = ta.aplicationManager.getApplication().listStudents();
-        ta.logger.info("*** Students: " + students);*/
+        ta.logger.info("*** Students ***");
+        students.forEach(a -> ta.logger.info(a.toString()));
+        
+        Integer newId = ta.aplicationManager.getApplication().getStudentIdNexval();
+        ta.logger.info("New Id: " + newId);     
+        
     }
 }

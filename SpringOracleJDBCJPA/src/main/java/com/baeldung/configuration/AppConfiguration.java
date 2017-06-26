@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(value={"com.baeldung"})
+@Import({PersistenceConfig.class})
 public class AppConfiguration {
         
 }

@@ -16,11 +16,11 @@ import org.hibernate.annotations.NamedNativeQuery;
 @Entity
 @Table(name = "STUDENT")
 @NamedNativeQueries({
-    @NamedNativeQuery(name = "studentById",
-        query = "select a.id as id, a.name as name, a.age as age from student a where id = ?0"
-          , resultClass = Student.class),
-    @NamedNativeQuery(name = "listStudents",
-    query = "select a.id as id, a.name as name, a.age as age from student a"
+    @NamedNativeQuery(name = "studentById"
+        , query = "select a.id as id, a.name as name, a.age as age from student a where id = ?0"
+          , resultClass = Student.class)
+    , @NamedNativeQuery(name = "listStudents"
+    , query = "select a.id as id, a.name as name, a.age as age from student a"
       , resultClass = Student.class)
 })
 public class Student implements Serializable {
@@ -50,8 +50,8 @@ public class Student implements Serializable {
      * Way how to setup automatic oracle sequence generator to work.
      * allocationSize=1 is always mandatory.
      */
-    @SequenceGenerator(name = "student_seq", sequenceName = "STUDENT_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_seq")
+    @SequenceGenerator(name = "studentSeqLoc", sequenceName = "STUDENT_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "studentSeqLoc")
     public Integer getId() {
         return id;
     }

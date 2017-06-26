@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.baeldung.persistence.dao.StudentDAO;
+import com.baeldung.persistence.model.StudentSequence;
 import com.baeldung.persistence.model.Student;
 
 @Service
@@ -28,15 +29,24 @@ public class StudentService implements StudentServiceInt {
         createStudent(student);
         return student;
     }
+    
+    @Override
+    @Transactional
+    public Integer getStudentIdNexval() {
+      Session session = studentDAO.getSession();
+      Query<StudentSequence> query = session.getNamedQuery("getStudentSequenceId");
+      StudentSequence studentSequence = query.getSingleResult();
+      return studentSequence.getNextVal();
+    }
 
     @Override
     @Transactional
-    public Student createStudent(Student student) {
-        String SQL = "insert into student (id, name, age) values (?, ?, ?)";
-        studentDAO.getSession().save(student);
+    public Integer createStudent(Student student) {
+        //String SQL = "insert into student (id, name, age) values (?, ?, ?)";
+        Integer id = (Integer) studentDAO.getSession().save(student);
             //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
         System.out.println("Created Record Student: " + student.toString());
-        return student;
+        return id;
     }
 
     @Override
@@ -67,20 +77,31 @@ public class StudentService implements StudentServiceInt {
         students = query.getResultList();
         return students;
     }
-
-    /*@Override
-    public void deleteStudent(Integer id) {
-        String SQL = "delete from student where id = ?";
-        jdbcTemplateObject.update(SQL, new Object[] { id });
-        System.out.println("Deleted Record with ID = " + id);
-        return;
-    }
     
     @Override
-    public void updateStudentAge(Integer id, Integer age) {
-        String SQL = "update student set age = ? where id = ?";
-        jdbcTemplateObject.update(SQL, new Object[] { age, id });
-        System.out.println("Updated Record with ID = " + id);
-        return;
-    }*/
+    @Transactional
+    public Student updateStudent(Student student) {
+        //String SQL = "update student set age = ? where id = ?";
+        //jdbcTemplateObject.update(SQL, new Object[] { age, id });
+        Student studentOld = getStudent(student.getId());
+        if (studentOld != null) {
+          // to avoid org.springframework.dao.DuplicateKeyException
+          studentDAO.getSession().merge(student);
+        }        
+        System.out.println("Student updated: " + studentOld);
+        return studentOld;
+    }
+
+    @Override
+    @Transactional
+    public Student deleteStudent(Integer id) {
+        //String SQL = "delete from student where id = ?";
+        //jdbcTemplateObject.update(SQL, new Object[] { id });
+        Student student = getStudent(id);
+        if (student != null) {
+          studentDAO.getSession().delete(student);
+        }
+        System.out.println("Deleted Record with Id = " + id);
+        return student;
+    }
 }
