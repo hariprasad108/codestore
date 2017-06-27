@@ -3,6 +3,9 @@
  */
 package com.baeldung.persistence.model;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,22 +21,24 @@ import org.hibernate.annotations.NamedNativeQuery;
 @Entity
 @SequenceGenerator(name = "studentSeq", sequenceName = "STUDENT_SEQ", allocationSize = 1)
 @NamedNativeQuery(name = "getStudentSequenceId"
-, query = "select student_seq.nextval as student_id from dual a"
+, query = "select student_seq.nextval as id from dual a"
   , resultClass = StudentSequence.class)
-public class StudentSequence {
-    @Id
-    @GeneratedValue(generator = "studentSeq")
-    Integer student_id;
+public class StudentSequence implements Serializable {
+    Integer id;
  
     public StudentSequence() {
         super();
     }
 
-    public void setNextVal(Integer studentId) {
-        this.student_id = studentId;
+    @Id
+    @Column(name = "ID", nullable = false)
+    @GeneratedValue(generator = "studentSeq")
+    public Integer getId() {
+        return id;
     }
 
-    public Integer getNextVal() {
-        return student_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
+
 }

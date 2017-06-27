@@ -36,7 +36,7 @@ public class StudentService implements StudentServiceInt {
       Session session = studentDAO.getSession();
       Query<StudentSequence> query = session.getNamedQuery("getStudentSequenceId");
       StudentSequence studentSequence = query.getSingleResult();
-      return studentSequence.getNextVal();
+      return studentSequence.getId();
     }
 
     @Override

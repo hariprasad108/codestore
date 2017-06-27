@@ -31,11 +31,11 @@ public class TestApplication {
         std.setId(id);
         ta.logger.info("Student added: " + std);        
         
-        std = ta.aplicationManager.getApplication().deleteStudent(206);
+        std = ta.aplicationManager.getApplication().deleteStudent(6);
 
         Student retStd = ta.aplicationManager.getApplication()
-            .getStudent(new Integer(206));
-        ta.logger.info("*** Student: " + retStd);
+            .getStudent(new Integer(7));
+        ta.logger.info("*** Student for update: " + retStd);
         if (retStd != null) {
           retStd.setName("Shri " + retStd.getName());
           Student studentOld = ta.aplicationManager.getApplication().updateStudent(retStd);

@@ -5,6 +5,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.cfg.AvailableSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -28,6 +30,7 @@ import com.google.common.base.Preconditions;
 @PropertySource({ "classpath:persistence-oracle.properties"/*, "classpath:persistence-h2.properties"*/})
 @ComponentScan({ "com.baeldung.persistence" })
 public class PersistenceConfig {
+    private final Logger logger = LoggerFactory.getLogger(AppConfiguration.class);
 
     @Autowired
     private Environment env;
@@ -37,6 +40,12 @@ public class PersistenceConfig {
     private static final String DB_PASSWORD_KEY = "jdbc.password";
     private static final String DB_USER_KEY = "jdbc.username";
 
+    
+    public PersistenceConfig() {
+        super();
+        logger.info("***PersistenceConfig from SpringOracleJDBCJPA ***");
+    }
+        
     /**
      * Initialize dataSource
      * @return DataSource
