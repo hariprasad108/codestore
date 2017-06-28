@@ -1,9 +1,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.deepam.spring</groupId>
 	<artifactId>SpringOracleJDBCJPAREST</artifactId>
+	<version>0.4.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	
+
 	<parent>
 		<groupId>com.deepam.spring</groupId>
 		<artifactId>SpringOracleEmptyParent</artifactId>
@@ -28,11 +30,11 @@
 			<version>11.2.0</version>
 		</dependency>
 
-		<!-- Inner dendecies for utilities -->
+		<!-- Inner dependecies for utilities -->
 		<dependency>
 			<groupId>com.deepam.spring</groupId>
 			<artifactId>SpringOracleJDBCJPA</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.4.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -48,7 +50,9 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<version>3.1.0</version>
 				<configuration>
 					<warSourceDirectory>/src/main/webapp</warSourceDirectory>
 					<failOnMissingWebXml>false</failOnMissingWebXml>

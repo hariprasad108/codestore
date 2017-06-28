@@ -19,8 +19,8 @@ import com.deepam.app.AppInitializer;
 @Configuration
 // @EnableJpaRepositories
 @EnableWebMvc
-/*@Import({ AppConfiguration.class })*/
-@ComponentScan(basePackages = { "com.deepam.spring.controller" })
+@Import({AppConfiguration.class})
+@ComponentScan(basePackages = {"com.deepam.spring.controller", "com.baeldung"}) 
 public class AppRestConfig extends WebMvcConfigurerAdapter {
     private final Logger logger = LoggerFactory.getLogger(AppRestConfig.class);
 
@@ -29,10 +29,12 @@ public class AppRestConfig extends WebMvcConfigurerAdapter {
         logger.info("***AppRestConfig from SpringOracleJDBCJPAREST ***");
     }
 
-    /*@Override TODO
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");*/
-        
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/")
+        .addResourceLocations("/"); 
+    }
+
     /*@Bean
     public ApplicationManager applicationManager() {
         return new ApplicationManager();

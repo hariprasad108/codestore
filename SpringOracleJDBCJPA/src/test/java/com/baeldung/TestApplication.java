@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.baeldung.persistence.model.Student;
 
@@ -15,6 +16,7 @@ import com.baeldung.persistence.model.Student;
  */
 public class TestApplication {
     private final Logger logger = LoggerFactory.getLogger(TestApplication.class);
+    
     ApplicationManager aplicationManager = null;
 
     private TestApplication() {
@@ -34,7 +36,7 @@ public class TestApplication {
         std = ta.aplicationManager.getApplication().deleteStudent(6);
 
         Student retStd = ta.aplicationManager.getApplication()
-            .getStudent(new Integer(7));
+            .getStudent(new Integer(id));
         ta.logger.info("*** Student for update: " + retStd);
         if (retStd != null) {
           retStd.setName("Shri " + retStd.getName());
