@@ -17,11 +17,11 @@ import com.baeldung.persistence.model.Student;
 public class TestApplication {
     private final Logger logger = LoggerFactory.getLogger(TestApplication.class);
     
-    ApplicationManager aplicationManager = null;
+    ApplicationManager applicationManager = null;
 
     private TestApplication() {
       super();
-      aplicationManager = new ApplicationManager();
+      applicationManager = new ApplicationManager();
       
     }
 
@@ -29,29 +29,29 @@ public class TestApplication {
         TestApplication ta = new TestApplication();
         Student std = new Student("Swamiji Maheshwaranada", 1000000008);
         ta.logger.info(std.toString());
-        Integer id = ta.aplicationManager.getApplication().addStudent(std);
+        Integer id = ta.applicationManager.getApplication().addStudent(std);
         std.setId(id);
         ta.logger.info("Student added: " + std);        
         
-        std = ta.aplicationManager.getApplication().deleteStudent(6);
+        std = ta.applicationManager.getApplication().deleteStudent(6);
 
-        Student retStd = ta.aplicationManager.getApplication()
+        Student retStd = ta.applicationManager.getApplication()
             .getStudent(new Integer(id));
         ta.logger.info("*** Student for update: " + retStd);
         if (retStd != null) {
           retStd.setName("Shri " + retStd.getName());
-          Student studentOld = ta.aplicationManager.getApplication().updateStudent(retStd);
+          Student studentOld = ta.applicationManager.getApplication().updateStudent(retStd);
           ta.logger.info("Student updated: " + studentOld);        
         }
         else {
             ta.logger.info("Student for update not exists: " + retStd);                   
         }
 
-        List<Student> students = ta.aplicationManager.getApplication().listStudents();
+        List<Student> students = ta.applicationManager.getApplication().listStudents();
         ta.logger.info("*** Students ***");
         students.forEach(a -> ta.logger.info(a.toString()));
         
-        Integer newId = ta.aplicationManager.getApplication().getStudentIdNexval();
+        Integer newId = ta.applicationManager.getApplication().getStudentIdNexval();
         ta.logger.info("New Id: " + newId);     
         
     }

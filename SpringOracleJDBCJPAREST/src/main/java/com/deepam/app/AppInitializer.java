@@ -4,9 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import com.baeldung.PersistenceApplication;
-import com.baeldung.configuration.AppConfiguration;
-import com.baeldung.configuration.PersistenceConfig;
 import com.deepam.spring.config.AppRestConfig;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
