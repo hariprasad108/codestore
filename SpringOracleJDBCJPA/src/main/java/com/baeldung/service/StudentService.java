@@ -7,18 +7,21 @@ import javax.transaction.Transactional.TxType;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.baeldung.persistence.dao.StudentDAO;
-import com.baeldung.persistence.model.StudentSequence;
 import com.baeldung.persistence.model.Student;
+import com.baeldung.persistence.model.StudentSequence;
 
 @Service
 @Repository
 @Transactional(value = TxType.SUPPORTS)
 public class StudentService implements StudentServiceInt {
+    private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
     StudentDAO studentDAO;
@@ -44,8 +47,8 @@ public class StudentService implements StudentServiceInt {
     public Integer createStudent(Student student) {
         //String SQL = "insert into student (id, name, age) values (?, ?, ?)";
         Integer id = (Integer) studentDAO.getSession().save(student);
-            //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
-        System.out.println("Created Record Student: " + student.toString());
+        //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
+        logger.info("Created Record Student: " + student.toString());
         return id;
     }
 
