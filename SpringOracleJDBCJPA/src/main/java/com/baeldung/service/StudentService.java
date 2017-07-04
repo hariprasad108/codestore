@@ -34,22 +34,12 @@ public class StudentService implements StudentServiceInt {
     }
     
     @Override
-    @Transactional
+    @Transactional(value = TxType.SUPPORTS)
     public Integer getStudentIdNexval() {
       Session session = studentDAO.getSession();
       Query<StudentSequence> query = session.getNamedQuery("getStudentSequenceId");
       StudentSequence studentSequence = query.getSingleResult();
       return studentSequence.getId();
-    }
-
-    @Override
-    @Transactional
-    public Integer createStudent(Student student) {
-        //String SQL = "insert into student (id, name, age) values (?, ?, ?)";
-        Integer id = (Integer) studentDAO.getSession().save(student);
-        //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
-        logger.info("Created Record Student: " + student.toString());
-        return id;
     }
 
     @Override
@@ -81,6 +71,18 @@ public class StudentService implements StudentServiceInt {
         return students;
     }
     
+    @Override
+    @Transactional
+    public Student createStudent(Student student) {
+        //String SQL = "insert into student (id, name, age) values (?, ?, ?)";
+        Integer id = (Integer) studentDAO.getSession().save(student);
+        Student studentRet = new Student(student);
+        //.update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
+        studentRet.setId(id);
+        logger.info("+++++++ Student created: " + student.toString());
+        return studentRet;
+    }
+
     @Override
     @Transactional
     public Student updateStudent(Student student) {

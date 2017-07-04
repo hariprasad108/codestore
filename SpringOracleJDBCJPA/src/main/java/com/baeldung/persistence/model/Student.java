@@ -20,7 +20,7 @@ import org.hibernate.annotations.NamedNativeQuery;
         , query = "select a.id as id, a.name as name, a.age as age from student a where id = ?0"
           , resultClass = Student.class)
     , @NamedNativeQuery(name = "listStudents"
-    , query = "select a.id as id, a.name as name, a.age as age from student a"
+    , query = "select a.id as id, a.name as name, a.age as age from student a order by a.id"
       , resultClass = Student.class)
 })
 public class Student implements Serializable {
@@ -43,6 +43,11 @@ public class Student implements Serializable {
     public Student(String name, Integer age) {
         this.name = name;
         this.age = age;
+    }
+    
+    // constructor for deep copy
+    public Student(Student student) {
+        this(student.getId(), student.getName(), student.getAge());
     }
 
     @Id

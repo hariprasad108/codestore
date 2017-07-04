@@ -45,13 +45,35 @@ public class PersistenceConfig {
         super();
         logger.info("***PersistenceConfig from SpringOracleJDBCJPA ***");
     }
+    
+    @Bean(name = "entityManagerFactory")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+       em.setDataSource(getDataSource());
+       em.setPackagesToScan(new String[] {"com.baeldung.persistence.model"});
+       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+       em.setJpaVendorAdapter(vendorAdapter);
+       em.setJpaProperties(getHibernateProperties());
+
+       return em;
+    }
+    
+    @Bean
+    public LocalSessionFactoryBean sessionFactory() {
+        final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
+        sessionFactory.setDataSource(getDataSource());
+        sessionFactory.setPackagesToScan(new String[] {"com.baeldung.persistence.model"});
+        sessionFactory.setHibernateProperties(getHibernateProperties());
+
+        return sessionFactory;
+    }
         
     /**
-     * Initialize dataSource
+     * Initialize dataSource, the DataSource is final i.e. it is for one session only one
      * @return DataSource
      */
-    @Bean
-    public DataSource dataSource() {
+    @Bean(name = "dataSource")
+    public DataSource getDataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(Preconditions.checkNotNull(env.getRequiredProperty(DB_DRIVER_CLASS_KEY)));
         dataSource.setUrl(Preconditions.checkNotNull(env.getRequiredProperty(DB_URL_KEY)));
@@ -62,28 +84,6 @@ public class PersistenceConfig {
         dataSource.setUsername("test");
         dataSource.setPassword("test");*/
         return dataSource;
-    }
-
-    @Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan(new String[] {"com.baeldung.persistence.model"});
-        sessionFactory.setHibernateProperties(getHibernateProperties());
-
-        return sessionFactory;
-    }
-    
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-       em.setDataSource(dataSource());
-       em.setPackagesToScan(new String[] {"com.baeldung.persistence.model"});
-       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-       em.setJpaVendorAdapter(vendorAdapter);
-       em.setJpaProperties(getHibernateProperties());
-
-       return em;
     }
 
     @Bean

@@ -30,11 +30,11 @@ public class PersistenceApplication {
         return id;        
     }
 
-    public Integer addStudent(Student student) {
+    public Student addStudent(Student student) {
         // Save new employee
-        Integer id = studentService.createStudent(student);
-        logger.info("Student created: " + student);
-        return id;
+        Student studentRet = studentService.createStudent(student);
+        logger.info("Student created: " + studentRet);
+        return studentRet;
     }
     
     public Student getStudent(Integer id) {

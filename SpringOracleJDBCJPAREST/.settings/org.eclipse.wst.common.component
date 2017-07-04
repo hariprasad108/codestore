@@ -7,6 +7,9 @@
         <dependent-module archiveName="SpringOracleJDBCJPA-0.4.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/SpringOracleJDBCJPA/SpringOracleJDBCJPA">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="SpringOracleExceptions-0.4.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/SpringOracleExceptions/SpringOracleExceptions">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="SpringOracleJDBCJPAREST"/>
         <property name="java-output-path" value="/SpringOracleJDBCJPAREST/target/classes"/>
     </wb-module>

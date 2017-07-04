@@ -29,14 +29,13 @@ public class TestApplication {
         TestApplication ta = new TestApplication();
         Student std = new Student("Swamiji Maheshwaranada", 1000000008);
         ta.logger.info(std.toString());
-        Integer id = ta.applicationManager.getApplication().addStudent(std);
-        std.setId(id);
+        std = ta.applicationManager.getApplication().addStudent(std);
         ta.logger.info("Student added: " + std);        
         
-        std = ta.applicationManager.getApplication().deleteStudent(6);
+        Student stddel = ta.applicationManager.getApplication().deleteStudent(6);
 
         Student retStd = ta.applicationManager.getApplication()
-            .getStudent(new Integer(id));
+            .getStudent(new Integer(std.getId()));
         ta.logger.info("*** Student for update: " + retStd);
         if (retStd != null) {
           retStd.setName("Shri " + retStd.getName());
@@ -51,6 +50,7 @@ public class TestApplication {
         ta.logger.info("*** Students ***");
         students.forEach(a -> ta.logger.info(a.toString()));
         
+        // next value from sequence
         Integer newId = ta.applicationManager.getApplication().getStudentIdNexval();
         ta.logger.info("New Id: " + newId);     
         

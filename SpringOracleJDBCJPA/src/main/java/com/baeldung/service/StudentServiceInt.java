@@ -10,7 +10,7 @@ public interface StudentServiceInt {
 
     public Student createStudent(Integer id, String name, Integer age);
 
-    public Integer createStudent(Student student);
+    public Student createStudent(Student student);
 
     public Student getStudent(Integer id);
     
