@@ -9,17 +9,17 @@ import com.deepam.exceptions.utils.CustomizedExceptionsList;
  * Checked exception thrown when some unrecoverable error occurs in application
  */
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = CustomizedExceptionsList.EX500TEXT)
-public class InternalException extends ServiceException {
+public class CustInternalException extends ServiceException {
 
-    public InternalException(String message, Throwable cause) {
+    public CustInternalException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public InternalException(String message) {
+    public CustInternalException(String message) {
         super(message);
     }
 
-    public InternalException(Throwable cause) {
+    public CustInternalException(Throwable cause) {
         super(cause);
     }
 

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baeldung.ApplicationManager;
 import com.baeldung.persistence.model.Student;
-import com.deepam.exceptions.ResourceNotFoundException;
+import com.deepam.exceptions.CustResourceNotFoundException;
 import com.deepam.exceptions.utils.CustomizedExceptionsList;
 
 @RestController
@@ -48,7 +48,7 @@ public class StudentRestController {
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable("id") Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<Student> getStudent(@PathVariable("id") Integer id) throws CustResourceNotFoundException {
 
         /*if (applicationManager == null) logger.info("---- ApplicationManager not found");
         else { logger.info("++++ ApplicationManager is alive ");*/
@@ -60,7 +60,7 @@ public class StudentRestController {
             Validate.notNull(studentRet, CustomizedExceptionsList.EX000);
         } catch (Exception e) {
             logger.info("Student get not found: " + e.getMessage());
-            throw new ResourceNotFoundException(e.getMessage());
+            throw new CustResourceNotFoundException(e.getMessage());
         }
         logger.info("Student get found");
         return new ResponseEntity<Student>(studentRet, HttpStatus.OK);
@@ -76,7 +76,7 @@ public class StudentRestController {
     }
 
     @PostMapping("/students/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student student) throws ResourceNotFoundException {
+    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student student) throws CustResourceNotFoundException {
 
         assert (id.equals(student.getId()));
 
@@ -87,7 +87,7 @@ public class StudentRestController {
             Validate.notNull(studentRet, CustomizedExceptionsList.EX000);
         } catch (Exception e) {
             logger.info("Student for update not found: " + e.getMessage());
-            throw new ResourceNotFoundException(e.getMessage());
+            throw new CustResourceNotFoundException(e.getMessage());
         }
         logger.info("Student for delete found");
         return new ResponseEntity(studentRet, HttpStatus.OK);
@@ -95,7 +95,7 @@ public class StudentRestController {
     }
 
     @DeleteMapping("/student/{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Integer id) throws ResourceNotFoundException {
+    public ResponseEntity<Student> deleteStudent(@PathVariable Integer id) throws CustResourceNotFoundException {
 
         Student studentRet = applicationManager.getApplication()
             .deleteStudent(id);
@@ -104,7 +104,7 @@ public class StudentRestController {
             Validate.notNull(studentRet, CustomizedExceptionsList.EX000);
         } catch (Exception e) {
             logger.info("Student for delete not found: " + e.getMessage());
-            throw new ResourceNotFoundException(e.getMessage());
+            throw new CustResourceNotFoundException(e.getMessage());
         }
         logger.info("Student for delete found");
         return new ResponseEntity(studentRet, HttpStatus.OK);

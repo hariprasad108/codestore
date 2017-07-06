@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 
 import com.deepam.exceptions.AlreadyExistsException;
-import com.deepam.exceptions.InternalException;
+import com.deepam.exceptions.CustInternalException;
 import com.deepam.exceptions.NotAuthorizedException;
-import com.deepam.exceptions.ResourceNotFoundException;
+import com.deepam.exceptions.CustResourceNotFoundException;
 import com.deepam.exceptions.ServiceException;
 
 /**
@@ -30,7 +30,7 @@ public final class ServiceExceptionTransformer {
         ServiceException serviceException;
         switch (HttpStatus.valueOf(statusCode)) {
             case NOT_FOUND:
-                serviceException = new ResourceNotFoundException(e.getMessage(), e);
+                serviceException = new CustResourceNotFoundException(e.getMessage(), e);
                 break;
             case CONFLICT:
                 serviceException = new AlreadyExistsException(e.getMessage(), e);
@@ -39,11 +39,11 @@ public final class ServiceExceptionTransformer {
                 serviceException = new NotAuthorizedException(e.getMessage(), e);
                 break;
             case INTERNAL_SERVER_ERROR:
-                serviceException = new InternalException(e.getMessage(), e);
+                serviceException = new CustInternalException(e.getMessage(), e);
                 break;
             default:
                 logger.warn("Unsupported Exception status code: {}.", statusCode, e);
-                serviceException = new InternalException(e.getMessage(), e);
+                serviceException = new CustInternalException(e.getMessage(), e);
         }
         return serviceException;
     }

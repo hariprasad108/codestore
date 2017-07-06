@@ -9,17 +9,17 @@ import com.deepam.exceptions.utils.CustomizedExceptionsList;
  * Exception raised when object is not found
  */
 @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = CustomizedExceptionsList.EX000TEXT)
-public class ResourceNotFoundException extends ServiceException {
+public class CustResourceNotFoundException extends ServiceException {
 
-    public ResourceNotFoundException(Throwable cause) {
+    public CustResourceNotFoundException(Throwable cause) {
         super(cause);
     }
 
-    public ResourceNotFoundException(String message) {
+    public CustResourceNotFoundException(String message) {
         super(message);
     }
 
-    public ResourceNotFoundException(String message, Throwable cause) {
+    public CustResourceNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
