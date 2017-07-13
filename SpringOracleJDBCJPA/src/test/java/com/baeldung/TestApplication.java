@@ -27,12 +27,16 @@ public class TestApplication {
 
     public static void main(String[] args) {
         TestApplication ta = new TestApplication();
-        Student std = new Student("Swamiji Maheshwaranada", 1000000008);
+        List<Student> students = ta.applicationManager.getApplication().findAllStudents();
+        ta.logger.info("*** Students ***");
+        students.forEach(a -> ta.logger.info(a.toString()));
+
+        Student std = new Student("Swamiji Maheshwaranada", 1000000008, null);
         ta.logger.info(std.toString());
         std = ta.applicationManager.getApplication().addStudent(std);
         ta.logger.info("Student added: " + std);        
         
-        Student stddel = ta.applicationManager.getApplication().deleteStudent(6);
+        /*Student stddel = ta.applicationManager.getApplication().deleteStudent(182);
 
         Student retStd = ta.applicationManager.getApplication()
             .getStudent(new Integer(std.getId()));
@@ -46,13 +50,13 @@ public class TestApplication {
             ta.logger.info("Student for update not exists: " + retStd);                   
         }
 
-        List<Student> students = ta.applicationManager.getApplication().listStudents();
+        students = ta.applicationManager.getApplication().listStudents();
         ta.logger.info("*** Students ***");
         students.forEach(a -> ta.logger.info(a.toString()));
         
         // next value from sequence
         Integer newId = ta.applicationManager.getApplication().getStudentIdNexval();
-        ta.logger.info("New Id: " + newId);     
+        ta.logger.info("New Id: " + newId);*/     
         
     }
 }

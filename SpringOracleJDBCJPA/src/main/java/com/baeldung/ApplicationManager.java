@@ -31,7 +31,7 @@ public class ApplicationManager  implements WebApplicationInitializer {
     }
     
     @Override
-    public void onStartup(ServletContext arg0) throws ServletException {
+    public void onStartup(ServletContext context) throws ServletException {
     }
 
     public AnnotationConfigApplicationContext getContext() {

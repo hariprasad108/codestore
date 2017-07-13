@@ -10,6 +10,7 @@ import com.deepam.exceptions.utils.CustomizedExceptionsList;
  */
 @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = CustomizedExceptionsList.EX000TEXT)
 public class CustResourceNotFoundException extends ServiceException {
+    private static final long serialVersionUID = 9046657543543925632L;
 
     public CustResourceNotFoundException(Throwable cause) {
         super(cause);

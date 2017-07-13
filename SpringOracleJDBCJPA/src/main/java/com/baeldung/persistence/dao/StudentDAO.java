@@ -9,6 +9,12 @@ import com.baeldung.persistence.model.Student;
 @Repository
 public class StudentDAO extends AbstractHibernateDAO<Student> {
 
+    /** constructor */
+    StudentDAO() {
+        super();
+        this.setClazz(Student.class);
+    }
+    
     public Session getSession() {
             return this.sessionFactory.getCurrentSession();
     }

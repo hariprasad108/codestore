@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baeldung.ApplicationManager;
 import com.baeldung.persistence.model.Student;
+import com.baeldung.persistence.model.StudentBase;
 import com.deepam.exceptions.CustResourceNotFoundException;
 import com.deepam.exceptions.utils.CustomizedExceptionsList;
 
@@ -37,9 +38,9 @@ public class StudentRestController {
 
     @GetMapping("/students")
     // @RequestMapping(consumes = {"application/json; charset=UTF-8"}, produces = {"application/json; charset=UTF-8"})
-    public List<Student> getStudents() {
+    public List<StudentBase> getStudents() {
 
-        List<Student> students = applicationManager.getApplication()
+        List<StudentBase> students = applicationManager.getApplication()
             .listStudents();
         logger.info("*** Students ***");
         students.forEach(a -> logger.info(a.toString()));
@@ -48,12 +49,12 @@ public class StudentRestController {
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable("id") Integer id) throws CustResourceNotFoundException {
+    public ResponseEntity<StudentBase> getStudent(@PathVariable("id") Integer id) throws CustResourceNotFoundException {
 
         /*if (applicationManager == null) logger.info("---- ApplicationManager not found");
         else { logger.info("++++ ApplicationManager is alive ");*/
         
-        Student studentRet = applicationManager.getApplication()
+        StudentBase studentRet = applicationManager.getApplication()
             .getStudent(new Integer(id));
 
         try {
@@ -63,7 +64,7 @@ public class StudentRestController {
             throw new CustResourceNotFoundException(e.getMessage());
         }
         logger.info("Student get found");
-        return new ResponseEntity<Student>(studentRet, HttpStatus.OK);
+        return new ResponseEntity<StudentBase>(studentRet, HttpStatus.OK);
     }
 
     @PostMapping(value = "/student")
@@ -76,11 +77,11 @@ public class StudentRestController {
     }
 
     @PostMapping("/students/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Integer id, @RequestBody Student student) throws CustResourceNotFoundException {
+    public ResponseEntity<StudentBase> updateStudent(@PathVariable Integer id, @RequestBody Student student) throws CustResourceNotFoundException {
 
         assert (id.equals(student.getId()));
 
-        Student studentRet = applicationManager.getApplication()
+        StudentBase studentRet = applicationManager.getApplication()
             .updateStudent(student);
         
         try {
@@ -95,9 +96,9 @@ public class StudentRestController {
     }
 
     @DeleteMapping("/student/{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Integer id) throws CustResourceNotFoundException {
+    public ResponseEntity<StudentBase> deleteStudent(@PathVariable Integer id) throws CustResourceNotFoundException {
 
-        Student studentRet = applicationManager.getApplication()
+        StudentBase studentRet = applicationManager.getApplication()
             .deleteStudent(id);
         
         try {

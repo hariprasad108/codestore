@@ -23,7 +23,7 @@ public abstract class AbstractDAO<T extends Serializable> {
 
     abstract void deleteById(final Integer entityId);
 
-    protected final void setClazz(final Class<T> clazzToSet) {
+    public void setClazz(final Class<T> clazzToSet) {
         clazz = Preconditions.checkNotNull(clazzToSet);
     }
 }

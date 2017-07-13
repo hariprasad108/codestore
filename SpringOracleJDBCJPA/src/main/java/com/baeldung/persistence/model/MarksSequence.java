@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.baeldung.persistence.model;
 
 import java.io.Serializable;
@@ -19,21 +16,20 @@ import org.hibernate.annotations.NamedNativeQuery;
  *
  */
 @Entity
-@SequenceGenerator(name = "studentSeq", sequenceName = "STUDENT_SEQ", allocationSize = 1)
-@NamedNativeQuery(name = "getStudentSequenceId"
-, query = "select student_seq.nextval as id from dual a"
-  , resultClass = StudentSequence.class)
-public class StudentSequence implements Serializable {
-    private static final long serialVersionUID = -7386276676650544255L;
+@SequenceGenerator(name = "marksSeq", sequenceName = "MARKS_SEQ", allocationSize = 1)
+@NamedNativeQuery(name = "getMarksSequenceId"
+, query = "select marks_seq.nextval as id from dual a"
+  , resultClass = MarksSequence.class)
+public class MarksSequence implements Serializable {
     Integer id;
  
-    public StudentSequence() {
+    public MarksSequence() {
         super();
     }
 
     @Id
     @Column(name = "ID", nullable = false)
-    @GeneratedValue(generator = "studentSeq")
+    @GeneratedValue(generator = "marksSeq")
     public Integer getId() {
         return id;
     }
@@ -43,3 +39,4 @@ public class StudentSequence implements Serializable {
     }
 
 }
+

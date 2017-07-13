@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.baeldung.persistence.model.Student;
+import com.baeldung.persistence.model.StudentBase;
 import com.baeldung.service.StudentServiceInt;
 
 /**
@@ -31,34 +32,37 @@ public class PersistenceApplication {
     }
 
     public Student addStudent(Student student) {
-        // Save new employee
         Student studentRet = studentService.createStudent(student);
         logger.info("Student created: " + studentRet);
         return studentRet;
     }
     
-    public Student getStudent(Integer id) {
-        // Get saved employee
-        Student student = studentService.getStudent(id);
-        logger.info("Retrieving saved student: " + student);
+    public StudentBase getStudent(Integer id) {
+        StudentBase student = studentService.getStudent(id);
+        logger.info("Retrieving student: " + student);
         return student;
     }
     
-    public List<Student> listStudents() {
-        // Get saved employee
-        List<Student> students = studentService.listStudents();
-        logger.info("Retrieving saved student: " + students);
+    public List<Student> findAllStudents() {
+        List<Student> students = studentService.findAllStudents();
+        logger.info("Retrieving all using find students: " + students);
         return students;
     }
     
-    public Student updateStudent(Student student) {
-        Student studentOld = studentService.updateStudent(student);
+    public List<StudentBase> listStudents() {
+        List<StudentBase> students = studentService.listStudents();
+        logger.info("Retrieving all using named query students: " + students);
+        return students;
+    }
+    
+    public StudentBase updateStudent(Student student) {
+        StudentBase studentOld = studentService.updateStudent(student);
         logger.info("Student updated: " + studentOld);
         return studentOld;
     }
     
-   public Student deleteStudent(Integer id) {
-       Student student = studentService.deleteStudent(id);
+   public StudentBase deleteStudent(Integer id) {
+       StudentBase student = studentService.deleteStudent(id);
        logger.info("Student deleted: " + student);
        return student;
    }
