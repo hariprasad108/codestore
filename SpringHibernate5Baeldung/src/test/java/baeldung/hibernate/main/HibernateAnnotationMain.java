@@ -52,7 +52,7 @@ public class HibernateAnnotationMain {
         cart.setItems(itemsRet);
 
         Cart cartFind = ham.applicationManager.getApplication()
-            .getCart(41);
+            .getCart(42);
 
         // treat null
         ham.logger.info("Find cart: " + (cartFind == null ? null : cartFind.toString()));
@@ -62,7 +62,9 @@ public class HibernateAnnotationMain {
         ham.logger.info("**** Carts list **** ");
         carts.forEach((cartLambda) -> ham.logger.info("Cart: " + cartLambda.toString()));
 
-        if (cartFind != null) {
+        if (cartFind == null) {
+            ham.logger.info("Cart not found");
+        } else {
             Cart cartUpd = new Cart(cartFind.getId(), cartFind.getId() + cartFind.getIdentification(), cartFind.getItems());
 
             Cart cartUpdOld = ham.applicationManager.getApplication()
