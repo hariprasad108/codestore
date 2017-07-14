@@ -1,13 +1,8 @@
 package baeldung.hibernate.main;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -16,13 +11,13 @@ import baeldung.hibernate.application.ApplicationManager;
 import baeldung.persistence.hibernate.model.Cart;
 import baeldung.persistence.hibernate.model.Items;
 
-public class HibernateAnnotationMain {
-    private final Logger logger = LoggerFactory.getLogger(HibernateAnnotationMain.class);
+public class SpringHibernateMain {
+    private final Logger logger = LoggerFactory.getLogger(SpringHibernateMain.class);
 
     ApplicationManager applicationManager;
     AnnotationConfigApplicationContext context;
 
-    HibernateAnnotationMain() {
+    SpringHibernateMain() {
         super();
         applicationManager = new ApplicationManager();
         try {
@@ -34,7 +29,7 @@ public class HibernateAnnotationMain {
     }
 
     public static void main(String[] args) {
-        HibernateAnnotationMain ham = new HibernateAnnotationMain();
+        SpringHibernateMain ham = new SpringHibernateMain();
         Cart cart = new Cart(null, "ABC", null);
 
         Cart cartRet = ham.applicationManager.getApplication()
@@ -44,15 +39,15 @@ public class HibernateAnnotationMain {
         Items item1 = new Items(cartRet);
         Items item2 = new Items(cartRet);
         List<Items> itemsList = new ArrayList<>();
-        // itemsList.add(item1);
-        // itemsList.add(item2);
+        itemsList.add(item1);
+        itemsList.add(item2);
 
         List<Items> itemsRet = ham.applicationManager.getApplication()
             .addItems(itemsList);
         cart.setItems(itemsRet);
 
-        Cart cartFind = ham.applicationManager.getApplication()
-            .getCart(42);
+        // cart for find and testing
+        Cart cartFind = ham.applicationManager.getApplication().getCart(43);
 
         // treat null
         ham.logger.info("Find cart: " + (cartFind == null ? null : cartFind.toString()));
