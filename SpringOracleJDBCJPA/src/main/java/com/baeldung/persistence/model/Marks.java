@@ -1,6 +1,7 @@
 package com.baeldung.persistence.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,70 +17,29 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MARKS")
-public class Marks implements Serializable {
+public class Marks extends MarksBase {
     private static final long serialVersionUID = 1L;
-    
-    private Integer id;
-    private Integer mark;
-    private Integer year;
-    private Integer studentId;
     
     private Student student;
 
+    /** mandatory constructor */
     public Marks() {
         super();
     }
+    
+    public Marks(Integer mark, Integer year, Integer studentId, Student student) {
+        super(mark, year, studentId);
+        this.student = student;
+    }    
 
-    @Id
-    @Column(name = "ID", nullable = false)
-    /*
-     * Way how to setup automatic oracle sequence generator to work.
-     * allocationSize=1 is always mandatory.
-     */
-    @SequenceGenerator(name = "marksSeqLoc", sequenceName = "MARKS_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marksSeqLoc")
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Student.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Student.class)
+    @JoinColumn(name = "STUDENT_ID")
     public Student getStudent() {
         return student;
     }
 
     public void setStudent(Student student) {
         this.student = student;
-    }
-
-    @Column(name = "MARK", nullable = false)
-    public Integer getMark() {
-        return mark;
-    }
-
-    public void setMark(Integer mark) {
-        this.mark = mark;
-    }
-
-    @Column(name = "YEAR", nullable = false)
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    @Column(name = "STUDENT_ID", nullable = false)
-    public Integer getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Integer studentId) {
-        this.studentId = studentId;
     }
     
     @Override

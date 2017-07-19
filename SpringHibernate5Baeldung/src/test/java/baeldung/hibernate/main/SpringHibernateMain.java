@@ -46,8 +46,8 @@ public class SpringHibernateMain {
             .addItems(itemsList);
         cart.setItems(itemsRet);
 
-        // cart for find and testing
-        Cart cartFind = ham.applicationManager.getApplication().getCart(43);
+        //**** cart for find and testing ****
+        Cart cartFind = ham.applicationManager.getApplication().getCart(44);
 
         // treat null
         ham.logger.info("Find cart: " + (cartFind == null ? null : cartFind.toString()));
@@ -76,6 +76,7 @@ public class SpringHibernateMain {
 
             ham.logger.info("Deleted cart: " + (cartDelOld == null ? null : cartDelOld.toString()));
         }
+        ham.logger.info("//// Finished ////");
     }
 
 }

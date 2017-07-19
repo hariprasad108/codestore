@@ -7,14 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
-@Entity
-@Table(name = "STUDENT")
+@MappedSuperclass
 public class StudentBase implements Serializable {
-    private static final long serialVersionUID = 1L;
+    protected static final long serialVersionUID = 1L;
     
     protected Integer id;
     protected String name;

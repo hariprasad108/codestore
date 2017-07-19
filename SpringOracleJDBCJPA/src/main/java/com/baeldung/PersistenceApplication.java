@@ -1,7 +1,9 @@
 package com.baeldung;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,32 +39,32 @@ public class PersistenceApplication {
         return studentRet;
     }
     
-    public StudentBase getStudent(Integer id) {
-        StudentBase student = studentService.getStudent(id);
+    public Student getStudentById(Integer id) {
+        Student student = studentService.getStudentById(id);
         logger.info("Retrieving student: " + student);
         return student;
     }
     
     public List<Student> findAllStudents() {
         List<Student> students = studentService.findAllStudents();
-        logger.info("Retrieving all using find students: " + students);
+        logger.info("---- Retrieving all using find students method");
         return students;
     }
     
-    public List<StudentBase> listStudents() {
-        List<StudentBase> students = studentService.listStudents();
-        logger.info("Retrieving all using named query students: " + students);
+    public List<Student> listStudents() {
+        List<Student> students = studentService.listStudents();
+        logger.info("++++ Retrieving all using named query students: " + students);
         return students;
     }
     
-    public StudentBase updateStudent(Student student) {
-        StudentBase studentOld = studentService.updateStudent(student);
+    public Student updateStudent(Student student) {
+        Student studentOld = studentService.updateStudent(student);
         logger.info("Student updated: " + studentOld);
         return studentOld;
     }
     
-   public StudentBase deleteStudent(Integer id) {
-       StudentBase student = studentService.deleteStudent(id);
+   public Student deleteStudent(Integer id) {
+       Student student = studentService.deleteStudent(id);
        logger.info("Student deleted: " + student);
        return student;
    }

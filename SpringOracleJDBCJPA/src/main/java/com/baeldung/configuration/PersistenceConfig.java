@@ -17,6 +17,7 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -27,38 +28,26 @@ import com.google.common.base.Preconditions;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource({ "classpath:persistence-oracle.properties"/*, "classpath:persistence-h2.properties"*/})
+@PropertySource({ "classpath:persistence-oracle.properties"/*, "classpath:persistence-h2.properties"*/ })
 @ComponentScan({ "com.baeldung.persistence" })
 public class PersistenceConfig {
     private final Logger logger = LoggerFactory.getLogger(AppConfiguration.class);
 
     @Autowired
     private Environment env;
-    
+
     private static final String DB_DRIVER_CLASS_KEY = "jdbc.driver_class_name";
     private static final String DB_URL_KEY = "jdbc.url";
     private static final String DB_PASSWORD_KEY = "jdbc.password";
     private static final String DB_USER_KEY = "jdbc.username";
 
-    
     public PersistenceConfig() {
         super();
         logger.info("***PersistenceConfig from SpringOracleJDBCJPA ***");
     }
-    
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-       LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-       em.setDataSource(getDataSource());
-       em.setPackagesToScan(new String[] {"com.baeldung.persistence.model"});
-       JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-       em.setJpaVendorAdapter(vendorAdapter);
-       em.setJpaProperties(getHibernateProperties());
 
-       return em;
-    }
-    
-    @Bean
+    /** JavaX entityManagerFactory cannot coexists with Hibernate sessionFactory */
+    @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory() {
         final LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(getDataSource());
@@ -67,7 +56,7 @@ public class PersistenceConfig {
 
         return sessionFactory;
     }
-        
+
     /**
      * Initialize dataSource, the DataSource is final i.e. it is for one session only one
      * @return DataSource
@@ -86,6 +75,7 @@ public class PersistenceConfig {
         return dataSource;
     }
 
+    /** JavaX entityManagerFactory cannot coexists with Hibernate sessionFactory */
     @Bean
     public PlatformTransactionManager hibernateTransactionManager() {
         final HibernateTransactionManager transactionManager = new HibernateTransactionManager();

@@ -14,13 +14,13 @@ public interface StudentServiceInt {
 
     public Student createStudent(Student student);
 
-    public StudentBase getStudent(Integer id);
+    public Student getStudentById(Integer id);
     
     public List<Student> findAllStudents();
     
-    public List<StudentBase> listStudents();    
+    public List<Student> listStudents();    
 
-    public StudentBase deleteStudent(Integer id);
+    public Student deleteStudent(Integer id);
     
-    public StudentBase updateStudent(Student student);
+    public Student updateStudent(Student student);
 }

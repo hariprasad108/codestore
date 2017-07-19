@@ -17,40 +17,45 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.NamedNativeQueries;
 import org.hibernate.annotations.NamedNativeQuery;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 @Entity
 @Table(name = "STUDENT")
 @NamedNativeQueries({
-    @NamedNativeQuery(name = "studentById"
-        , query = "select a.id as id, a.name as name, a.age as age from student a where id = ?0"
-          , resultClass = StudentBase.class)
-    , @NamedNativeQuery(name = "listStudents"
-    , query = "select a.id as id, a.name as name, a.age as age from student a order by a.id"
-      , resultClass = StudentBase.class)
+    @NamedNativeQuery(name = "studentNativeById"
+        , query = "select a.id, a.name, a.age"
+                  + ", b.id, b.student_id, b.mark, b.year from student a"
+                  + " left join marks b on a.id = b.student_id where a.id = :studentId"
+          , resultClass = Student.class)
+    , @NamedNativeQuery(name = "listSNativeStudents"
+    , query = "select a.id, a.name, a.age"
+              + ", b.id, b.student_id, b.mark, b.year from student a"
+              + " left join marks b on a.id = b.student_id order by a.id desc"
+      , resultClass = Student.class)
 })
-public class Student implements Serializable {
-    private static final long serialVersionUID = 1L;
+/** strange join is based on object technology Student is class, a.marks join is refined from method getMarks */
+@NamedQueries({
+    @NamedQuery(name = "studentById"
+        , query = "select a from Student a left join a.marks b where a.id = :studentId")
+    , @NamedQuery(name = "listStudents"
+    , query = "select a from Student a left join a.marks b order by a.id desc")
+})
+public class Student extends StudentBase {
     
     private List<Marks> marks = new ArrayList<>(0);
     
-    protected Integer id;
-    protected String name;
-    protected Integer age;
-
     public Student() {
         super();
     }
 
     public Student(Integer id, String name, Integer age, List<Marks> marksList) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+        super(id, name, age);
         this.marks = marksList;
     }
 
     public Student(String name, Integer age, List<Marks> marksList) {
-        this.name = name;
-        this.age = age;
+        super(name, age);
         this.marks = marksList;
     }
     
@@ -58,41 +63,6 @@ public class Student implements Serializable {
     public Student(Student student) {
         this(student.getId(), student.getName(), student.getAge(), student.getMarks());
     }
-
-    @Id
-    @Column(name = "ID", nullable = false)
-    /*
-     * Way how to setup automatic oracle sequence generator to work.
-     * allocationSize=1 is always mandatory.
-     */
-    @SequenceGenerator(name = "studentSeqLoc", sequenceName = "STUDENT_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "studentSeqLoc")
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Column(name = "NAME", length = 80, nullable = false)
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Column(name = "AGE", nullable = false)
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
     
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     public List<Marks> getMarks() {
@@ -106,7 +76,9 @@ public class Student implements Serializable {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder(), marksList = new StringBuilder();
-        marks.forEach((mark) -> marksList.append(mark.toString()));
+        if (marks != null) {
+          marks.forEach((mark) -> marksList.append((mark == null) ? null : mark.toString()));
+        }
         builder.append("Student [id=").append(id)
           .append(" name=").append(name)
           .append(" age=").append(age)
@@ -114,6 +86,4 @@ public class Student implements Serializable {
           .append("]");
         return builder.toString();
     }
-
-
 }
