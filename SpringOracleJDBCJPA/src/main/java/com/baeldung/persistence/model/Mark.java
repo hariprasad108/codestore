@@ -15,19 +15,37 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
-@Table(name = "MARKS")
-public class Marks extends MarksBase {
+@Table(name = "MARK")
+@NamedNativeQueries({
+    @NamedNativeQuery(name = "markNativeById"
+        , query = "select a.*, b.* from mark a"
+                  + " left join student b on a.student_id = b.id where b.id = :markId"
+          , resultClass = Mark.class)
+    , @NamedNativeQuery(name = "listNativeMarks"
+    , query = "select a.*, b.* from mark a"
+                  + " left join student b on a.student_id = b.id order by a.id desc"
+      , resultClass = Mark.class)
+    , @NamedNativeQuery(name = "listNativeMarksByStudentId"
+    , query = "select a.*, b.* from mark a"
+                  + " left join student b on a.student_id = b.id where a.student_id = :studentId"
+      , resultClass = Mark.class)
+})public class Mark extends MarkBase {
     private static final long serialVersionUID = 1L;
     
-    private Student student;
+    @JsonBackReference private Student student;
 
     /** mandatory constructor */
-    public Marks() {
+    public Mark() {
         super();
     }
     
-    public Marks(Integer mark, Integer year, Integer studentId, Student student) {
+    public Mark(Integer mark, Integer year, Integer studentId, Student student) {
         super(mark, year, studentId);
         this.student = student;
     }    

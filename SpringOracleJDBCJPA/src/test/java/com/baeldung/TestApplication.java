@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.baeldung.persistence.model.Marks;
+import com.baeldung.persistence.model.Mark;
 import com.baeldung.persistence.model.Student;
 import com.baeldung.persistence.model.StudentBase;
 
@@ -38,35 +38,39 @@ public class TestApplication {
         Integer newId = ta.applicationManager.getApplication().getStudentIdNexval();
         ta.logger.info("New Id: " + newId);
  
-        Student std = new Student("Vishwaguruji Maheshwaranada", 1000000008, null);
+        Student std = new Student("Avatár Purí ěščřžýáíé", 1000000008, null);
         
-        List<Marks> marks = new ArrayList<Marks>();
-        marks.add(new Marks(1008, 2017, std.getId(), std));
-        marks.add(new Marks(10008, 2018, std.getId(), std));
+        List<Mark> mark = new ArrayList<Mark>();
+        mark.add(new Mark(1008, 2017, std.getId(), std));
+        mark.add(new Mark(10008, 2018, std.getId(), std));
         
-        std.setMarks(marks);
+        std.setMarks(mark);
         ta.logger.info("Student before insert: " + std.toString());
         
         std = ta.applicationManager.getApplication().addStudent(std);
         ta.logger.info("Student added: " + std);
+        
+        Student studentAfterAdd = ta.applicationManager.getApplication()
+            .getStudentById(std.getId());
+        ta.logger.info("Student fetch afer add: " + studentAfterAdd);
                 
         Student studentOld = null;
-        /*List<Marks> marks = new ArrayList<Marks>();
-        marks.add(new Marks(1008, 2017, std));
-        marks.add(new Marks(10008, 218, std));
+        //List<Mark> marks = new ArrayList<Mark>();
+        std.getMarks().add(new Mark(1234, 2256, std.getId(), std));
+        std.getMarks().add(new Mark(5678, 2020, std.getId(), std));
 
-        std.setMarks(marks);
+        //std.setMarks(marks);
         
         studentOld = ta.applicationManager.getApplication().updateStudent(std);
-        ta.logger.info("Student updated with marks: " + studentOld); */       
+        ta.logger.info("Student updated with marks: " + studentOld);       
         
-        Student stddel = ta.applicationManager.getApplication().deleteStudent(207);
+        Student stddel = ta.applicationManager.getApplication().deleteStudent(553);
 
         Student retStd = ta.applicationManager.getApplication()
-            .getStudentById(79);
+            .getStudentById(555);
         ta.logger.info("*** Student for update: " + retStd);
         if (retStd != null) {
-          retStd.setName("Shri " + retStd.getName());
+          retStd.setName("Shri Siva");
           studentOld = ta.applicationManager.getApplication().updateStudent(retStd);
           ta.logger.info("Student updated: " + studentOld);        
         }
@@ -74,9 +78,9 @@ public class TestApplication {
             ta.logger.info("Student for update not exists: " + retStd);                   
         }
 
-        /*students = ta.applicationManager.getApplication().listStudents();
+        students = ta.applicationManager.getApplication().listStudents();
         ta.logger.info("*** Students ***");
-        students.forEach(a -> ta.logger.info(a.toString()));*/
+        students.forEach(a -> ta.logger.info(a.toString()));
         
         ta.logger.info("//// Finished ////");
         

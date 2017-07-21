@@ -19,11 +19,11 @@ import org.hibernate.annotations.NamedNativeQuery;
 @SequenceGenerator(name = "marksSeq", sequenceName = "MARKS_SEQ", allocationSize = 1)
 @NamedNativeQuery(name = "getMarksSequenceId"
 , query = "select marks_seq.nextval as id from dual a"
-  , resultClass = MarksSequence.class)
-public class MarksSequence implements Serializable {
+  , resultClass = MarkSequence.class)
+public class MarkSequence implements Serializable {
     Integer id;
  
-    public MarksSequence() {
+    public MarkSequence() {
         super();
     }
 

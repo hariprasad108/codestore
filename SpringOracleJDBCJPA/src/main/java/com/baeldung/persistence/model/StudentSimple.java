@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/** Clas for simple fetch without @OneToMany, @ManyToOne */
 @Entity
 @Table(name = "STUDENT")
 public class StudentSimple extends StudentBase {

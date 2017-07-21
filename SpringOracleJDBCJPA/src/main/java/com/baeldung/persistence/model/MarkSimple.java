@@ -5,17 +5,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/** Clas for simple fetch without @OneToMany, @ManyToOne */
 @Entity
 @Table(name = "MARKS")
-public class MarksSimple extends MarksBase {
+public class MarkSimple extends MarkBase {
     private static final long serialVersionUID = 1L;
 
     /** mandatory constructor */
-    public MarksSimple() {
+    public MarkSimple() {
         super();
     }
     
-    public MarksSimple(Integer mark, Integer year, Integer studentId) {
+    public MarkSimple(Integer mark, Integer year, Integer studentId) {
         super(mark, year, studentId);
     }
     

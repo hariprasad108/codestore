@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
 @MappedSuperclass
-public class MarksBase implements Serializable {
+public class MarkBase implements Serializable, DuplicatesInt {
     private static final long serialVersionUID = 1L;
     
     protected Integer id;
@@ -19,11 +19,11 @@ public class MarksBase implements Serializable {
     protected Integer studentId;
 
     /** mandatory constructor */
-    public MarksBase() {
+    public MarkBase() {
         super();
     }
     
-    public MarksBase(Integer mark, Integer year, Integer studentId) {
+    public MarkBase(Integer mark, Integer year, Integer studentId) {
         super();
         this.mark = mark;
         this.year = year;
@@ -38,6 +38,7 @@ public class MarksBase implements Serializable {
      */
     @SequenceGenerator(name = "marksSeqLoc", sequenceName = "MARKS_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "marksSeqLoc")
+    @Override
     public Integer getId() {
         return id;
     }
@@ -64,7 +65,7 @@ public class MarksBase implements Serializable {
         this.year = year;
     }
 
-    @Column(name = "STUDENT_ID", insertable = false, updatable=false)
+    @Column(name = "STUDENT_ID", insertable = false, updatable=false, nullable = false)
     public Integer getStudentId() {
         return studentId;
     }

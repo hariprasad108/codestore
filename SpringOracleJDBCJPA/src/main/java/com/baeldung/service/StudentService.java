@@ -1,45 +1,39 @@
 package com.baeldung.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baeldung.persistence.dao.StudentDAO;
-import com.baeldung.persistence.model.Marks;
+import com.baeldung.persistence.model.DuplicatesInt;
+import com.baeldung.persistence.model.Mark;
+import com.baeldung.persistence.model.RemoveDuplicates;
 import com.baeldung.persistence.model.Student;
-import com.baeldung.persistence.model.StudentBase;
 import com.baeldung.persistence.model.StudentSequence;
 
 @Service
 @Repository
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, propagation = Propagation.REQUIRED)
 public class StudentService implements StudentServiceInt {
     private final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
     StudentDAO studentDAO;
-
-    @Override
-    public Student createStudent(Integer id, String name, Integer age, List<Marks> marksList) {
-        Student student = new Student(id, name, age, marksList);
-        createStudent(student);
-        return student;
-    }
+    
+    @Autowired
+    MarkServiceInt markService;
 
     @Override
     @Transactional(readOnly = true)
@@ -60,14 +54,16 @@ public class StudentService implements StudentServiceInt {
 
         Session session = studentDAO.getSession();
         Query<Student> query = session.getNamedQuery("studentNativeById");
-        //Query<Student> query = session.createNamedQuery("studentById");
+        // Query<Student> query = session.createNamedQuery("studentById");
         query.setParameter("studentId", id);
         students = query.getResultList();
         if (students != null) {
             studentsUniq = new HashSet<>();
             studentsUniq.addAll(students);
             if (studentsUniq.size() == 1) {
-                student = studentsUniq.stream().findFirst().get();
+                student = studentsUniq.stream()
+                    .findFirst()
+                    .get();
                 logger.info("Student found: " + student.toString());
             } else {
                 logger.info("Student Id: " + id + " not found");
@@ -76,26 +72,14 @@ public class StudentService implements StudentServiceInt {
         }
         return student;
     }
-    
-    /** to use @OneToMany @ManyToOne annotations leads to duplicate
-     *  rows if detail has more rows than only one
-     *  to use Set can reduce lines, which are not determined for splitting */
-    private List<Student> removeListDuplicates(List<Student> students) {
-        // LinkedHashSet keep order
-        Set<Student> studentsSet = new LinkedHashSet<>();
-        studentsSet.addAll(students);
-        List <Student> studentsNew = new ArrayList<>();
-        studentsNew.addAll(studentsSet);
-        //Collections.sort(studentsNew, new CustomComparator());
-        return  studentsNew;
-    }
 
     @Override
     @Transactional(readOnly = true)
     public List<Student> findAllStudents() {
         List<Student> students;
         students = studentDAO.findAll();
-        students = removeListDuplicates(students);
+        RemoveDuplicates<Student> dup = new RemoveDuplicates<>();
+        students = dup.removeListDuplicates(students);
         return students;
     }
 
@@ -107,26 +91,40 @@ public class StudentService implements StudentServiceInt {
         Session session = studentDAO.getSession();
         // List<Student> students = session.createQuery("select id, name, age from Student").list();
 
-        Query<Student> query = session.getNamedQuery("listSNativeStudents");
-        //Query<Student> query = session.createNamedQuery("listStudents");
+        Query<Student> query = session.getNamedQuery("listNativeStudents");
+        // Query<Student> query = session.createNamedQuery("listStudents");
+        // query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         students = query.getResultList();
-        //students = removeListDuplicates(students);
+        RemoveDuplicates<Student> dup = new RemoveDuplicates<>();
+        students = dup.removeListDuplicates(students);
         return students;
     }
 
     @Override
+    public Integer createStudent(Integer id, String name, Integer age, List<Mark> marksList) {
+        Student student = new Student(id, name, age, marksList);
+        Integer idRet = createStudent(student);
+        return idRet;
+    }
+    @Override
     @Transactional(readOnly = false)
-    public Student createStudent(Student student) {
+    public Integer createStudent(Student student) {
         // String SQL = "insert into student (id, name, age) values (?, ?, ?)";
         Integer id;
-        //Session session = studentDAO.getSession();
-        //id = (Integer) session.save(student);
+        Session session = studentDAO.getSession();
+        // id = (Integer) session.save(student);
+        Transaction tx = session.getTransaction();
+        //tx.commit();
+        //tx.begin();
+        /* after save the structures for read are not properly fulfilled,
+         *  we must either to do explicit commit or fetch structure outside of method
+         */
         id = (Integer) studentDAO.save(student);
-        Student studentRet = new Student(student);
+        //tx.commit();
+        //tx.begin();
         // .update(SQL, new Object[] { student.getId(), student.getName(), student.getAge() });
-        studentRet.setId(id);
-        logger.info("+++++++ Student created: " + student.toString());
-        return studentRet;
+        //Student studentRet = getStudentById(id);
+        return id;
     }
 
     @Override
@@ -138,7 +136,7 @@ public class StudentService implements StudentServiceInt {
         Student studentOld = getStudentById(student.getId());
         if (studentOld != null) {
             // to avoid org.springframework.dao.DuplicateKeyException
-            //studentDAO.getSession().merge(student);
+            // studentDAO.getSession().merge(student);
             studentDAO.update(student);
             logger.info("Student updated: " + studentOld);
         } else {
@@ -166,6 +164,7 @@ public class StudentService implements StudentServiceInt {
 class CustomComparator implements Comparator<Student> {
     @Override
     public int compare(Student o1, Student o2) {
-        return o1.getId().compareTo(o2.getId());
+        return o1.getId()
+            .compareTo(o2.getId());
     }
 }

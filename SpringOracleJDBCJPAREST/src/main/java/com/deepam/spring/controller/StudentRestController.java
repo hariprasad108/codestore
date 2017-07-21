@@ -19,9 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baeldung.ApplicationManager;
 import com.baeldung.persistence.model.Student;
-import com.baeldung.persistence.model.StudentBase;
 import com.deepam.exceptions.CustResourceNotFoundException;
 import com.deepam.exceptions.utils.CustomizedExceptionsList;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

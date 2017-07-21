@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 
 @MappedSuperclass
-public class StudentBase implements Serializable {
+public class StudentBase implements Serializable, DuplicatesInt {
     protected static final long serialVersionUID = 1L;
     
     protected Integer id;
@@ -48,6 +48,7 @@ public class StudentBase implements Serializable {
      */
     @SequenceGenerator(name = "studentSeqLoc", sequenceName = "STUDENT_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "studentSeqLoc")
+    @Override
     public Integer getId() {
         return id;
     }

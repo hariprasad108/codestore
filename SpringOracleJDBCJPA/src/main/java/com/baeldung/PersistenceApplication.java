@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.baeldung.persistence.model.Mark;
 import com.baeldung.persistence.model.Student;
 import com.baeldung.persistence.model.StudentBase;
+import com.baeldung.service.MarkServiceInt;
 import com.baeldung.service.StudentServiceInt;
 
 /**
@@ -26,6 +28,8 @@ public class PersistenceApplication {
 
     @Autowired
     private StudentServiceInt studentService;
+    @Autowired
+    private MarkServiceInt markService;
     
     public Integer getStudentIdNexval() {
         Integer id = studentService.getStudentIdNexval();
@@ -34,9 +38,16 @@ public class PersistenceApplication {
     }
 
     public Student addStudent(Student student) {
-        Student studentRet = studentService.createStudent(student);
-        logger.info("Student created: " + studentRet);
+        Integer id = studentService.createStudent(student);
+        Student studentRet = getStudentById(id);
+        logger.info("+++ Student created: " + studentRet);
         return studentRet;
+    }
+    
+    public List<Mark> findMarksByStudentId(Integer studentId) {
+        List<Mark> marks = markService.findMarksByStudentId(studentId);
+        logger.info("---- Retrieving all marks using find marks by student id method");
+        return marks;
     }
     
     public Student getStudentById(Integer id) {
@@ -44,7 +55,7 @@ public class PersistenceApplication {
         logger.info("Retrieving student: " + student);
         return student;
     }
-    
+
     public List<Student> findAllStudents() {
         List<Student> students = studentService.findAllStudents();
         logger.info("---- Retrieving all using find students method");

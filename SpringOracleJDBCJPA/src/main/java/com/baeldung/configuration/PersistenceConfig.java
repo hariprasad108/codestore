@@ -24,6 +24,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.baeldung.service.MarkService;
 import com.google.common.base.Preconditions;
 
 @Configuration
@@ -45,7 +46,7 @@ public class PersistenceConfig {
         super();
         logger.info("***PersistenceConfig from SpringOracleJDBCJPA ***");
     }
-
+    
     /** JavaX entityManagerFactory cannot coexists with Hibernate sessionFactory */
     @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory() {

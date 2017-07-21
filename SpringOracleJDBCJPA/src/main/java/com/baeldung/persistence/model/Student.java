@@ -20,18 +20,20 @@ import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "STUDENT")
 @NamedNativeQueries({
     @NamedNativeQuery(name = "studentNativeById"
         , query = "select a.id, a.name, a.age"
                   + ", b.id, b.student_id, b.mark, b.year from student a"
-                  + " left join marks b on a.id = b.student_id where a.id = :studentId"
+                  + " left join mark b on a.id = b.student_id where a.id = :studentId"
           , resultClass = Student.class)
-    , @NamedNativeQuery(name = "listSNativeStudents"
+    , @NamedNativeQuery(name = "listNativeStudents"
     , query = "select a.id, a.name, a.age"
               + ", b.id, b.student_id, b.mark, b.year from student a"
-              + " left join marks b on a.id = b.student_id order by a.id desc"
+              + " left join mark b on a.id = b.student_id order by a.id desc"
       , resultClass = Student.class)
 })
 /** strange join is based on object technology Student is class, a.marks join is refined from method getMarks */
@@ -43,18 +45,18 @@ import org.hibernate.annotations.NamedQuery;
 })
 public class Student extends StudentBase {
     
-    private List<Marks> marks = new ArrayList<>(0);
+    @JsonManagedReference private List<Mark> marks = new ArrayList<>(0);
     
     public Student() {
         super();
     }
 
-    public Student(Integer id, String name, Integer age, List<Marks> marksList) {
+    public Student(Integer id, String name, Integer age, List<Mark> marksList) {
         super(id, name, age);
         this.marks = marksList;
     }
 
-    public Student(String name, Integer age, List<Marks> marksList) {
+    public Student(String name, Integer age, List<Mark> marksList) {
         super(name, age);
         this.marks = marksList;
     }
@@ -65,11 +67,11 @@ public class Student extends StudentBase {
     }
     
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    public List<Marks> getMarks() {
+    public List<Mark> getMarks() {
        return marks;
     }
      
-    public void setMarks(List<Marks> marks) {
+    public void setMarks(List<Mark> marks) {
        this.marks = marks;
     }
 
@@ -82,7 +84,7 @@ public class Student extends StudentBase {
         builder.append("Student [id=").append(id)
           .append(" name=").append(name)
           .append(" age=").append(age)
-          .append(" marks: ").append(marksList)
+          .append(" mark: ").append(marksList)
           .append("]");
         return builder.toString();
     }
