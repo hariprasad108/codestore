@@ -1,5 +1,6 @@
 package com.baeldung.persistence.model;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -14,16 +15,16 @@ public class StudentSimple extends StudentBase {
         super();
     }
 
-    public StudentSimple(Integer id, String name, Integer age) {
-        super(id, name, age);
+    public StudentSimple(Integer id, String name, Integer age, ZonedDateTime updateDate) {
+        super(id, name, age, updateDate);
     }
 
-    public StudentSimple(String name, Integer age) {
-        super(name, age);
+    public StudentSimple(String name, Integer age, ZonedDateTime updateDate) {
+        super(name, age, updateDate);
     }
     
     // constructor for deep copy
     public StudentSimple(StudentSimple student) {
-        super(student.getId(), student.getName(), student.getAge());
+        super(student.getId(), student.getName(), student.getAge(), student.getUpdateDate());
     }
 }

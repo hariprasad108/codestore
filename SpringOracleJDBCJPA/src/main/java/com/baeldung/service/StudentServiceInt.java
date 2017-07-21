@@ -1,5 +1,6 @@
 package com.baeldung.service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.baeldung.persistence.model.Mark;
@@ -10,7 +11,7 @@ public interface StudentServiceInt {
     
     public Integer getStudentIdNexval();
 
-    public Integer createStudent(Integer id, String name, Integer age, List<Mark> marksList);
+    public Integer createStudent(Integer id, String name, Integer age, ZonedDateTime updateDate, List<Mark> marksList);
 
     public Integer createStudent(Student student);
 

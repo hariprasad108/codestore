@@ -1,5 +1,6 @@
 package com.baeldung.service;
 
+import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -17,11 +18,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.baeldung.persistence.dao.StudentDAO;
-import com.baeldung.persistence.model.DuplicatesInt;
 import com.baeldung.persistence.model.Mark;
-import com.baeldung.persistence.model.RemoveDuplicates;
 import com.baeldung.persistence.model.Student;
 import com.baeldung.persistence.model.StudentSequence;
+import com.baeldung.utils.DuplicatesInt;
+import com.baeldung.utils.RemoveDuplicates;
+import com.baeldung.utils.RemoveDuplicatesInt;
 
 @Service
 @Repository
@@ -78,7 +80,7 @@ public class StudentService implements StudentServiceInt {
     public List<Student> findAllStudents() {
         List<Student> students;
         students = studentDAO.findAll();
-        RemoveDuplicates<Student> dup = new RemoveDuplicates<>();
+        RemoveDuplicatesInt<Student> dup = new RemoveDuplicates<>();
         students = dup.removeListDuplicates(students);
         return students;
     }
@@ -95,14 +97,14 @@ public class StudentService implements StudentServiceInt {
         // Query<Student> query = session.createNamedQuery("listStudents");
         // query.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         students = query.getResultList();
-        RemoveDuplicates<Student> dup = new RemoveDuplicates<>();
+        RemoveDuplicatesInt<Student> dup = new RemoveDuplicates<>();
         students = dup.removeListDuplicates(students);
         return students;
     }
 
     @Override
-    public Integer createStudent(Integer id, String name, Integer age, List<Mark> marksList) {
-        Student student = new Student(id, name, age, marksList);
+    public Integer createStudent(Integer id, String name, Integer age, ZonedDateTime updateDate, List<Mark> marksList) {
+        Student student = new Student(id, name, age, updateDate, marksList);
         Integer idRet = createStudent(student);
         return idRet;
     }

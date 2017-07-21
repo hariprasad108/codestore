@@ -23,9 +23,9 @@ public class MarkSimple extends MarkBase {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Mark [id=").append(id)
-          .append(" mark=").append(mark)
-          .append(" year=").append(year)
+        builder.append("Mark [id: ").append(id)
+          .append(" mark: ").append(mark)
+          .append(" year: ").append(year)
           .append(" student_id: ").append(studentId)
           .append("]");
         return builder.toString();

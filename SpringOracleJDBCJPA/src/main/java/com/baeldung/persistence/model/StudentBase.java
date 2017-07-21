@@ -1,6 +1,7 @@
 package com.baeldung.persistence.model;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.baeldung.utils.DuplicatesInt;
+
 
 @MappedSuperclass
 public class StudentBase implements Serializable, DuplicatesInt {
@@ -19,25 +22,28 @@ public class StudentBase implements Serializable, DuplicatesInt {
     protected Integer id;
     protected String name;
     protected Integer age;
+    protected ZonedDateTime updateDate;
 
     public StudentBase() {
         super();
     }
 
-    public StudentBase(Integer id, String name, Integer age) {
+    public StudentBase(Integer id, String name, Integer age, ZonedDateTime updateDate) {
         this.id = id;
         this.name = name;
         this.age = age;
+        this.updateDate = updateDate;
     }
 
-    public StudentBase(String name, Integer age) {
+    public StudentBase(String name, Integer age, ZonedDateTime updateDate) {
         this.name = name;
         this.age = age;
+        this.updateDate = updateDate;
     }
     
     // constructor for deep copy
     public StudentBase(StudentBase student) {
-        this(student.getId(), student.getName(), student.getAge());
+        this(student.getId(), student.getName(), student.getAge(), student.getUpdateDate());
     }
 
     @Id
@@ -75,12 +81,22 @@ public class StudentBase implements Serializable, DuplicatesInt {
         this.age = age;
     }
 
+    @Column(name = "UPDATE_DATE", nullable = false)
+    public ZonedDateTime getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(ZonedDateTime updateDate) {
+        this.updateDate = updateDate;
+    }
+
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Student [id=").append(id)
-          .append(" name=").append(name)
-          .append(" age=").append(age)
+        builder.append("Student [id: ").append(id)
+          .append(" name: ").append(name)
+          .append(" age: ").append(age)
+          .append(" update date: ").append(updateDate)
           .append("]");
         return builder.toString();
     }

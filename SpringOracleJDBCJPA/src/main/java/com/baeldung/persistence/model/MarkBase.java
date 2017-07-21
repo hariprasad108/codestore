@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.SequenceGenerator;
 
+import com.baeldung.utils.DuplicatesInt;
+
 @MappedSuperclass
 public class MarkBase implements Serializable, DuplicatesInt {
     private static final long serialVersionUID = 1L;
@@ -77,9 +79,9 @@ public class MarkBase implements Serializable, DuplicatesInt {
     @Override
     public String toString() {
         final StringBuilder builder = new StringBuilder();
-        builder.append("Mark [id=").append(id)
-          .append(" mark=").append(mark)
-          .append(" year=").append(year)
+        builder.append("Mark [id: ").append(id)
+          .append(" mark: ").append(mark)
+          .append(" year: ").append(year)
           .append(" student_id: ").append(studentId)
           .append("]");
         return builder.toString();

@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.baeldung.persistence.dao.MarkDAO;
 import com.baeldung.persistence.model.Mark;
 import com.baeldung.persistence.model.MarkSequence;
-import com.baeldung.persistence.model.RemoveDuplicates;
 import com.baeldung.persistence.model.Student;
 import com.baeldung.persistence.model.StudentSequence;
+import com.baeldung.utils.RemoveDuplicates;
 
 @Service
 @Repository

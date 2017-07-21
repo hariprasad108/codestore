@@ -1,5 +1,6 @@
 package com.baeldung;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +39,8 @@ public class TestApplication {
         Integer newId = ta.applicationManager.getApplication().getStudentIdNexval();
         ta.logger.info("New Id: " + newId);
  
-        Student std = new Student("Avatár Purí ěščřžýáíé", 1000000008, null);
+        ZonedDateTime dateTime = ZonedDateTime.parse("2007-12-03T10:15:30+01:00[Europe/Paris]");
+        Student std = new Student("Avatár Purí ěščřžýáíé", 1000000008, dateTime, null);
         
         List<Mark> mark = new ArrayList<Mark>();
         mark.add(new Mark(1008, 2017, std.getId(), std));

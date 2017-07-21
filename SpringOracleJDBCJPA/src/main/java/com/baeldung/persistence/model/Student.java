@@ -1,6 +1,7 @@
 package com.baeldung.persistence.model;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +27,12 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "STUDENT")
 @NamedNativeQueries({
     @NamedNativeQuery(name = "studentNativeById"
-        , query = "select a.id, a.name, a.age"
+        , query = "select a.id, a.name, a.age, a.update_date"
                   + ", b.id, b.student_id, b.mark, b.year from student a"
                   + " left join mark b on a.id = b.student_id where a.id = :studentId"
           , resultClass = Student.class)
     , @NamedNativeQuery(name = "listNativeStudents"
-    , query = "select a.id, a.name, a.age"
+    , query = "select a.id, a.name, a.age, a.update_date"
               + ", b.id, b.student_id, b.mark, b.year from student a"
               + " left join mark b on a.id = b.student_id order by a.id desc"
       , resultClass = Student.class)
@@ -51,19 +52,19 @@ public class Student extends StudentBase {
         super();
     }
 
-    public Student(Integer id, String name, Integer age, List<Mark> marksList) {
-        super(id, name, age);
+    public Student(Integer id, String name, Integer age, ZonedDateTime updateDate, List<Mark> marksList) {
+        super(id, name, age, updateDate);
         this.marks = marksList;
     }
 
-    public Student(String name, Integer age, List<Mark> marksList) {
-        super(name, age);
+    public Student(String name, Integer age, ZonedDateTime updateDate, List<Mark> marksList) {
+        super(name, age, updateDate);
         this.marks = marksList;
     }
     
     // constructor for deep copy
     public Student(Student student) {
-        this(student.getId(), student.getName(), student.getAge(), student.getMarks());
+        this(student.getId(), student.getName(), student.getAge(), student.getUpdateDate(), student.getMarks());
     }
     
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -82,8 +83,9 @@ public class Student extends StudentBase {
           marks.forEach((mark) -> marksList.append((mark == null) ? null : mark.toString()));
         }
         builder.append("Student [id=").append(id)
-          .append(" name=").append(name)
-          .append(" age=").append(age)
+          .append(" name:").append(name)
+          .append(" age: ").append(age)
+          .append(" update date: ").append(updateDate)
           .append(" mark: ").append(marksList)
           .append("]");
         return builder.toString();
