@@ -32,7 +32,7 @@ import com.google.common.base.Preconditions;
 @PropertySource({ "classpath:persistence-oracle.properties"/*, "classpath:persistence-h2.properties"*/ })
 @ComponentScan({ "com.baeldung.persistence" })
 public class PersistenceConfig {
-    private final Logger logger = LoggerFactory.getLogger(AppConfiguration.class);
+    private final Logger logger = LoggerFactory.getLogger(PersistenceConfig.class);
 
     @Autowired
     private Environment env;

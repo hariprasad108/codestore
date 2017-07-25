@@ -14,8 +14,7 @@ public abstract class AbstractHibernateDAO<T extends Serializable> extends Abstr
     @Autowired
     protected SessionFactory sessionFactory;
 
-    // API
-
+    // get session
     protected Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
@@ -30,11 +29,11 @@ public abstract class AbstractHibernateDAO<T extends Serializable> extends Abstr
         return getCurrentSession().createQuery("from " + clazz.getName()).getResultList();
     }
 
-    @Override
+    /*@Override
     public void create(final T entity) {
         Preconditions.checkNotNull(entity);
         getCurrentSession().saveOrUpdate(entity);
-    }
+    }*/
     
     @Override
     public Serializable save(final T entity) {

@@ -1,0 +1,1 @@
+The client for SpringOracleJDBCJPAREST WS is based on Sprin Boot for simplicity.

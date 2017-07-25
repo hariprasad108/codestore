@@ -17,19 +17,19 @@ import com.baeldung.persistence.model.StudentBase;
  * @see <a href="http://www.bytestree.com/">BytesTree</a>
  * 
  */
-public class TestApplication {
-    private final Logger logger = LoggerFactory.getLogger(TestApplication.class);
+public class TestHibernateApplication {
+    private final Logger logger = LoggerFactory.getLogger(TestHibernateApplication.class);
     
     ApplicationManager applicationManager = null;
 
-    private TestApplication() {
+    private TestHibernateApplication() {
       super();
       applicationManager = new ApplicationManager();
       
     }
 
     public static void main(String[] args) {
-        TestApplication ta = new TestApplication();
+        TestHibernateApplication ta = new TestHibernateApplication();
         //List<Student> students = ta.applicationManager.getApplication().findAllStudents();
         List<Student> students = ta.applicationManager.getApplication().listStudents();        
         ta.logger.info("*** Students ***");

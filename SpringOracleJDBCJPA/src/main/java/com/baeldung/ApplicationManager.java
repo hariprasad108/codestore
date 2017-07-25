@@ -9,7 +9,7 @@ import org.springframework.web.WebApplicationInitializer;
 
 import com.baeldung.configuration.AppConfiguration;
 
-//@Component
+/** class to initialize of context cannot be component */
 public class ApplicationManager  implements WebApplicationInitializer {
     AnnotationConfigApplicationContext context = null;
     PersistenceApplication application = null;
