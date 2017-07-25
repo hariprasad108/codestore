@@ -13,9 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Written by Hariprasad composed from many sources
+ *  Client for testing SpringOracleJDBCJPAREST compound projects
+ * and SpringOracleJDBCJPARESTMerged project
+ * to change URI comment and uncomment lines 22, 23 */
 public class SpringRestStudentClient {
     private final Logger logger = LoggerFactory.getLogger(SpringRestStudentClient.class);
-    public static final String REST_SERVICE_URI = "http://localhost:8989/SpringOracleJDBCJPAREST";
+    //public static final String REST_SERVICE_URI = "http://localhost:8989/SpringOracleJDBCJPAREST";
+    public static final String REST_SERVICE_URI = "http://localhost:8989/SpringOracleJDBCJPARESTMerged";
     public static final String STUDENTS = "/students";
     public static final String STUDENTS_SLASH = "/students/";
     public static final String STUDENT = "/student";
@@ -32,6 +38,8 @@ public class SpringRestStudentClient {
     // GET
     @RequestMapping(produces = {"application/json; charset=UTF-8"})
     private List<Student> listAllStudents() {
+        logger.info("!!!!+++++ Active URI: " + REST_SERVICE_URI);
+        
         logger.info("Testing listAllStudents API-----------");
 
         RestTemplate restTemplate = new RestTemplate();
@@ -131,5 +139,6 @@ public class SpringRestStudentClient {
         }
         client.logger.info("Still alive: " + studentGet);
         // client.listAllStudents();
+        client.logger.info("!!!!+++++ Active URI: " + REST_SERVICE_URI);
     }
 }
